@@ -80,33 +80,33 @@ public class VentanaDibujo extends javax.swing.JFrame {
     public void paint(Graphics g){
         super.paintComponents(g);
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-//        g2.setColor(colorFondo);
-//        g2.fillRect(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
-//        int j = 0;
-//        while(j < listaFormas.size()){
-//            if(listaFormas.get(j) instanceof Circulo){
-//                 ((Circulo) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Triangulo){
-//                 ((Triangulo) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Cuadrado){
-//                 ((Cuadrado) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Rombo){
-//                 ((Rombo) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Cruz){
-//                 ((Cruz) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Estrella){
-//                 ((Estrella) listaFormas.get(j)).pintar(g2);
-//            }
-//            if(listaFormas.get(j) instanceof Linea){
-//                 ((Linea) listaFormas.get(j)).pintar(g2);
-//            }
-//            j++;
-//        }
+        g2.setColor(colorFondo);
+        g2.fillRect(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
+        int j = 0;
+        while(j < listaFormas.size()){
+            if(listaFormas.get(j) instanceof Circulo){
+                 ((Circulo) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Triangulo){
+                 ((Triangulo) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Cuadrado){
+                 ((Cuadrado) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Rombo){
+                 ((Rombo) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Cruz){
+                 ((Cruz) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Estrella){
+                 ((Estrella) listaFormas.get(j)).pintar(g2);
+            }
+            if(listaFormas.get(j) instanceof Linea){
+                 ((Linea) listaFormas.get(j)).pintar(g2);
+            }
+            j++;
+        }
         g2 = (Graphics2D) jPanel1.getGraphics();
         g2.drawImage(buffer, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), null);
     }
@@ -415,7 +415,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         posx= evt.getX();
         posy= evt.getY();
-        Graphics2D g2 = (Graphics2D) jPanel1.getGraphics();
         i = 0;
         if(rellenar){
             if(chequeaPunto(evt.getX(),evt.getY())){
