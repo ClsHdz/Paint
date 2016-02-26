@@ -8,9 +8,6 @@ package codigo;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-
 /**
  *
  * @author Administrator
@@ -19,7 +16,7 @@ public class Linea extends Polygon{
     public Color color = null;
     public int posx = 0;
     public int posy = 0;
-    public Linea(int x, int y, int ancho, int alto, int tamaño, Color colori){
+    public Linea(int x, int y, int ancho, int alto, Color colori){
         this.npoints = 2;
         
         this.xpoints[0] = x;

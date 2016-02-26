@@ -11,7 +11,14 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -24,6 +31,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     BufferedImage buffer = null;
     int forma = 0;
     Color colorElegido = Color.BLACK;
+    Color colorFondo = Color.WHITE;
     boolean seleccionar = false;
     boolean a = false;
     boolean rellenar = false;
@@ -40,6 +48,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     
 //    ArrayList<Circulo> listaNuevaCirculos = new ArrayList();
     ArrayList listaFormas = new ArrayList();
+    
     /**
      * Creates new form VentanaDibujo
      */
@@ -48,7 +57,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
         buffer = (BufferedImage) jPanel1.createImage(jPanel1.getWidth(), jPanel1.getHeight());
         buffer.createGraphics();
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-        g2.setColor(Color.white);
+        g2.setColor(colorFondo);
         g2.fillRect(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
         
     }
@@ -71,33 +80,33 @@ public class VentanaDibujo extends javax.swing.JFrame {
     public void paint(Graphics g){
         super.paintComponents(g);
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
-        int j = 0;
-        while(j < listaFormas.size()){
-            if(listaFormas.get(j) instanceof Circulo){
-                 ((Circulo) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Triangulo){
-                 ((Triangulo) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Cuadrado){
-                 ((Cuadrado) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Rombo){
-                 ((Rombo) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Cruz){
-                 ((Cruz) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Estrella){
-                 ((Estrella) listaFormas.get(j)).pintar(g2);
-            }
-            if(listaFormas.get(j) instanceof Linea){
-                 ((Linea) listaFormas.get(j)).pintar(g2);
-            }
-            j++;
-        }
+//        g2.setColor(colorFondo);
+//        g2.fillRect(0, 0, jPanel1.getWidth(), jPanel1.getHeight());
+//        int j = 0;
+//        while(j < listaFormas.size()){
+//            if(listaFormas.get(j) instanceof Circulo){
+//                 ((Circulo) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Triangulo){
+//                 ((Triangulo) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Cuadrado){
+//                 ((Cuadrado) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Rombo){
+//                 ((Rombo) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Cruz){
+//                 ((Cruz) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Estrella){
+//                 ((Estrella) listaFormas.get(j)).pintar(g2);
+//            }
+//            if(listaFormas.get(j) instanceof Linea){
+//                 ((Linea) listaFormas.get(j)).pintar(g2);
+//            }
+//            j++;
+//        }
         g2 = (Graphics2D) jPanel1.getGraphics();
         g2.drawImage(buffer, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), null);
     }
@@ -114,6 +123,8 @@ public class VentanaDibujo extends javax.swing.JFrame {
         jColorChooser1 = new javax.swing.JColorChooser();
         BotonAceptar = new javax.swing.JButton();
         BotonCancelar = new javax.swing.JButton();
+        jDialog2 = new javax.swing.JDialog();
+        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -129,6 +140,10 @@ public class VentanaDibujo extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jButton9 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         BotonAceptar.setText("Aceptar");
         BotonAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -138,6 +153,11 @@ public class VentanaDibujo extends javax.swing.JFrame {
         });
 
         BotonCancelar.setText("Cancelar");
+        BotonCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                BotonCancelarMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -162,6 +182,17 @@ public class VentanaDibujo extends javax.swing.JFrame {
                     .addComponent(BotonAceptar)
                     .addComponent(BotonCancelar))
                 .addContainerGap(59, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -288,6 +319,29 @@ public class VentanaDibujo extends javax.swing.JFrame {
             }
         });
 
+        jMenu1.setText("Archivo");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Guardar");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem1MousePressed(evt);
+            }
+        });
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Editar");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,11 +369,10 @@ public class VentanaDibujo extends javax.swing.JFrame {
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                        .addComponent(BotonColor, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BotonColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addComponent(jToggleButton1)
@@ -338,22 +391,21 @@ public class VentanaDibujo extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addComponent(jButton2)
                                 .addComponent(jLabel1)
-                                .addComponent(jToggleButton1))
+                                .addComponent(jToggleButton1)
+                                .addComponent(jButton3)
+                                .addComponent(jButton5)
+                                .addComponent(jButton7)
+                                .addComponent(jButton9)
+                                .addComponent(BotonColor))
                             .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton5)
-                            .addComponent(jButton7)
-                            .addComponent(BotonColor)
-                            .addComponent(jButton9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton6)
                             .addComponent(jButton8)
+                            .addComponent(jButton6)
+                            .addComponent(jButton4)
                             .addComponent(jToggleButton2))))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -363,6 +415,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         posx= evt.getX();
         posy= evt.getY();
+        Graphics2D g2 = (Graphics2D) jPanel1.getGraphics();
         i = 0;
         if(rellenar){
             if(chequeaPunto(evt.getX(),evt.getY())){
@@ -398,6 +451,9 @@ public class VentanaDibujo extends javax.swing.JFrame {
             j++;
         }
         }
+            else{
+                colorFondo = colorElegido;
+            }
         }
         else{
             switch (forma){
@@ -407,7 +463,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
             case 3 : listaFormas.add(new Rombo(evt.getX(),evt.getY(), 1, 1, colorElegido, false)); break;
             case 4 : listaFormas.add(new Cruz(evt.getX(),evt.getY(), 1, 1, colorElegido, false)); break;
             case 5 : listaFormas.add(new Estrella(evt.getX(),evt.getY(), 1, 1, colorElegido, false)); break;
-            case 6 : listaFormas.add(new Linea(evt.getX(),evt.getY(),1,1,jSlider1.getValue(), colorElegido)); break;
+            case 6 : listaFormas.add(new Linea(evt.getX(),evt.getY(),1,1, colorElegido)); break;
                 
             }
         }
@@ -613,6 +669,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
        listaFormas.clear();
+       colorFondo = Color.WHITE;
        repaint();
        linea1 = false;
     }//GEN-LAST:event_jButton2MousePressed
@@ -687,6 +744,36 @@ public class VentanaDibujo extends javax.swing.JFrame {
         forma = 6;
     }//GEN-LAST:event_jButton9MousePressed
 
+    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
+        
+        
+    }//GEN-LAST:event_jMenuItem1MousePressed
+
+    private void BotonCancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonCancelarMousePressed
+        jDialog1.setVisible(false);
+    }//GEN-LAST:event_BotonCancelarMousePressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jFileChooser1.setFileFilter(new FileNameExtensionFilter("archivos de imagenes jpg","jpg"));
+        jFileChooser1.setFileFilter( new FileNameExtensionFilter("archivos de imagenes png","png"));
+        int seleccion = jFileChooser1.showSaveDialog(this);
+        switch (seleccion){
+            case JFileChooser.APPROVE_OPTION : {
+                File fichero = jFileChooser1.getSelectedFile();
+                String nombre = fichero.getName();
+                String extension = nombre.substring(nombre.lastIndexOf('.')+1, nombre.length());
+                if(extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("png")){
+                    try {
+                ImageIO.write(buffer, "jpg", fichero);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaDibujo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                }
+            
+            }break;
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -737,7 +824,13 @@ public class VentanaDibujo extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JToggleButton jToggleButton1;
