@@ -24,6 +24,7 @@ public class Linea extends Polygon{
         this.xpoints[1] = x + ancho;
         this.ypoints[1] = y + alto;
         this.color = colori;
+        ;
 //        this.x = x;
 //        this.y = y;
 //        this.posx = xdos;

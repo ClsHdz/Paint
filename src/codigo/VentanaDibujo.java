@@ -140,7 +140,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jButton9 = new javax.swing.JButton();
         jToggleButton3 = new javax.swing.JToggleButton();
@@ -302,13 +301,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Seleccionar");
-        jToggleButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jToggleButton1MousePressed(evt);
-            }
-        });
-
         jToggleButton2.setText("Rellenar");
         jToggleButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -386,9 +378,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
                     .addComponent(BotonColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton3))
+                .addComponent(jToggleButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
@@ -404,7 +394,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addComponent(jButton2)
                                 .addComponent(jLabel1)
-                                .addComponent(jToggleButton1)
                                 .addComponent(jButton3)
                                 .addComponent(jButton5)
                                 .addComponent(jButton7)
@@ -769,15 +758,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
         linea1 = false;
     }//GEN-LAST:event_jButton8MousePressed
 
-    private void jToggleButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MousePressed
-        if(seleccionar){
-            seleccionar = false;
-        }
-        else{
-            seleccionar = true;
-        }
-    }//GEN-LAST:event_jToggleButton1MousePressed
-
     private void jToggleButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton2MousePressed
         if(rellenar){
             rellenar = false;
@@ -889,7 +869,6 @@ public class VentanaDibujo extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
