@@ -36,6 +36,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     boolean a = false;
     boolean rellenar = false;
     boolean linea1 = false;
+    boolean cuentagotas;
     int lineax1 = 0;
     int lineay1 = 0;
     int posx = 0;
@@ -52,8 +53,10 @@ public class VentanaDibujo extends javax.swing.JFrame {
     /**
      * Creates new form VentanaDibujo
      */
-    public VentanaDibujo() {
+    public VentanaDibujo() {                                                                        //En esta clase se crea el buffer y se pone el color del fondo.
         initComponents();
+        setResizable(false);
+        setTitle("Paint");
         buffer = (BufferedImage) jPanel1.createImage(jPanel1.getWidth(), jPanel1.getHeight());
         buffer.createGraphics();
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
@@ -62,7 +65,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
         
     }
     
-    private boolean chequeaPunto(int x, int y){
+    private boolean chequeaPunto(int x, int y){                                                 //Esta clase comprueba si el punto donde se ha hecho click contiene algun objeto.
         boolean contiene = false;
         int j = 0;
         while(j < listaFormas.size()){
@@ -77,7 +80,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }
     
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g){                                                  //Esta parte del programa escribe sobre la clase paint para que pinte las distintas formas.
         super.paintComponents(g);
         Graphics2D g2 = (Graphics2D) buffer.getGraphics();
         g2.setColor(colorFondo);
@@ -321,6 +324,11 @@ public class VentanaDibujo extends javax.swing.JFrame {
         });
 
         jToggleButton3.setText("Cuentagotas");
+        jToggleButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jToggleButton3MousePressed(evt);
+            }
+        });
 
         jMenu1.setText("Archivo");
 
@@ -379,12 +387,9 @@ public class VentanaDibujo extends javax.swing.JFrame {
                     .addComponent(jToggleButton2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, Short.MAX_VALUE)
-                        .addGap(208, 208, 208))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToggleButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jToggleButton1)
+                    .addComponent(jToggleButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -422,13 +427,13 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
-        posx= evt.getX();
+        posx= evt.getX();                                                               
         posy= evt.getY();
         i = 0;
-        if(rellenar){
+        if(rellenar){                                                               //Este if comprueba si el tiene que crear objetos, rellenarlos, o coger el color que tengan.
             if(chequeaPunto(evt.getX(),evt.getY())){
             int j = 0;
-        while(j < listaFormas.size()){
+        while(j < listaFormas.size()){                                              //Rellena un objeto si en lo que has hecho click es un objeto, o cambia de color el fondo si no hay nada.
             if(((Shape) listaFormas.get(j)).contains(evt.getX(),evt.getY())){
                if(listaFormas.get(j) instanceof Circulo){
                  ((Circulo) listaFormas.get(j)).relleno = true;
@@ -463,7 +468,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
                 colorFondo = colorElegido;
             }
         }
-        else{
+        else if(!rellenar && !cuentagotas && !seleccionar){                                                             //Crea los objetos y los mete en un ArrayList
             switch (forma){
             case 0 : listaFormas.add(new Circulo(evt.getX(),evt.getY(), 1, colorElegido, false)); break;
             case 1 : listaFormas.add(new Triangulo(evt.getX(),evt.getY(), 1, 1, colorElegido, false)); break;
@@ -474,6 +479,40 @@ public class VentanaDibujo extends javax.swing.JFrame {
             case 6 : listaFormas.add(new Linea(evt.getX(),evt.getY(),1,1, colorElegido)); break;
                 
             }
+        }
+        else if(cuentagotas){                                                                       //Coge el color del objeto en el que se ha hecho click, o del fondo si no habia nada.
+            if(chequeaPunto(evt.getX(),evt.getY())){
+                int j = 0;
+                while(j < listaFormas.size()){
+            if(((Shape) listaFormas.get(j)).contains(evt.getX(),evt.getY())){
+               if(listaFormas.get(j) instanceof Circulo){                
+                 colorElegido =((Circulo) listaFormas.get(j)).color;
+            }
+            if(listaFormas.get(j) instanceof Triangulo){
+                 colorElegido =((Triangulo) listaFormas.get(j)).color;
+            }
+            if(listaFormas.get(j) instanceof Cuadrado){
+                 colorElegido =((Cuadrado) listaFormas.get(j)).color;
+            }
+            if(listaFormas.get(j) instanceof Rombo){
+                 colorElegido =((Rombo) listaFormas.get(j)).color;
+            }
+            if(listaFormas.get(j) instanceof Cruz){
+                 colorElegido =((Cruz) listaFormas.get(j)).color;
+            }
+            if(listaFormas.get(j) instanceof Estrella){
+                 colorElegido =((Estrella) listaFormas.get(j)).color;
+            }
+            }
+            
+            j++;
+        }
+            }
+            else{
+                colorElegido = colorFondo;
+            }
+            cuentagotas = false;
+            jToggleButton3.doClick();
         }
 
 
@@ -499,7 +538,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
 //        listaLineas.add(new Circulo(evt.getX(),evt.getY(), radio, Color.ORANGE, true));
 //        listaNuevaCirculos.add(listaLineas);
         if(!rellenar){
-        switch(forma){
+        switch(forma){                                                                                  //Esta parte del código se usa para que al arrastrar los objetos justo despues de crearlos, se hagan mas grandes o mas pequeños.
             case 0:{
                 Circulo aux = (Circulo) listaFormas.get(listaFormas.size() -1);
                 int ancho = 1;
@@ -521,7 +560,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
                 
             }break;
                 case 1:{
-                Triangulo aux = (Triangulo) listaFormas.get(listaFormas.size() -1);
+                Triangulo aux = (Triangulo) listaFormas.get(listaFormas.size() -1);             //A partir del triangulo todos funcionan de la misma forma, sobreescribiendo los puntos de el primer triangulo con los nuevos.
                 int ancho = 1;
                 int alto = 1;
                 int puntoX = aux.xpoints[0];
@@ -666,7 +705,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        if(listaFormas.size() > 0){
+        if(listaFormas.size() > 0){                                                     // Boton deshacer.
             listaFormas.remove(listaFormas.size()-1);
             repaint();
         }
@@ -676,7 +715,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
-       listaFormas.clear();
+       listaFormas.clear();                                                             //Boton para borrar todo.
        colorFondo = Color.WHITE;
        repaint();
        linea1 = false;
@@ -691,12 +730,12 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_jSlider1MouseDragged
 
     private void jButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MousePressed
-        forma = 1;
+        forma = 1;                                                              // Modo Triangulo
         linea1 = false;
     }//GEN-LAST:event_jButton3MousePressed
 
     private void jButton4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MousePressed
-        forma = 0;
+        forma = 0;                                                      // Modo Circulo
         linea1 = false;
     }//GEN-LAST:event_jButton4MousePressed
 
@@ -706,27 +745,27 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonColorMousePressed
 
     private void BotonAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonAceptarMousePressed
-        colorElegido = jColorChooser1.getColor();
+        colorElegido = jColorChooser1.getColor();                               //Elige el color
         jDialog1.setVisible(false);
     }//GEN-LAST:event_BotonAceptarMousePressed
 
     private void jButton5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MousePressed
-        forma = 2;
+        forma = 2;                                                              //Modo Cuadrado
         linea1 = false;
     }//GEN-LAST:event_jButton5MousePressed
 
     private void jButton6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MousePressed
-        forma = 3;
+        forma = 3;                                                              //Modo Rombo
         linea1 = false;
     }//GEN-LAST:event_jButton6MousePressed
 
     private void jButton7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MousePressed
-        forma = 4;
+        forma = 4;                                                              //Modo Cruz
         linea1 = false;
     }//GEN-LAST:event_jButton7MousePressed
 
     private void jButton8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MousePressed
-        forma = 5;
+        forma = 5;                                                              //Modo Estrella
         linea1 = false;
     }//GEN-LAST:event_jButton8MousePressed
 
@@ -749,7 +788,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton2MousePressed
 
     private void jButton9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MousePressed
-        forma = 6;
+        forma = 6;                                                              //Modo Linea
     }//GEN-LAST:event_jButton9MousePressed
 
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
@@ -762,8 +801,8 @@ public class VentanaDibujo extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonCancelarMousePressed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        jFileChooser1.setFileFilter(new FileNameExtensionFilter("archivos de imagenes jpg","jpg"));
-        jFileChooser1.setFileFilter( new FileNameExtensionFilter("archivos de imagenes png","png"));
+        jFileChooser1.setFileFilter(new FileNameExtensionFilter("archivos de imagenes jpg","jpg"));             //Para guardar la imagen
+        jFileChooser1.setFileFilter( new FileNameExtensionFilter("archivos de imagenes png","png"));            
         int seleccion = jFileChooser1.showSaveDialog(this);
         switch (seleccion){
             case JFileChooser.APPROVE_OPTION : {
@@ -781,6 +820,15 @@ public class VentanaDibujo extends javax.swing.JFrame {
             }break;
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jToggleButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton3MousePressed
+        if(cuentagotas){
+            cuentagotas = false;
+        }
+        else{
+            cuentagotas = true;
+        }
+    }//GEN-LAST:event_jToggleButton3MousePressed
 
     /**
      * @param args the command line arguments
