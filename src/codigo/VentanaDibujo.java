@@ -22,7 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author Administrator
+ * @author Carlos Hernández González
  */
 public class VentanaDibujo extends javax.swing.JFrame {
     
@@ -469,7 +469,7 @@ public class VentanaDibujo extends javax.swing.JFrame {
                 
             }
         }
-        else if(cuentagotas){                                                                       //Coge el color del objeto en el que se ha hecho click, o del fondo si no habia nada.
+        else if(cuentagotas){                                                                       //Coge el color del objeto en el que se ha hecho click, o del fondo si no hay nada.
             if(chequeaPunto(evt.getX(),evt.getY())){
                 int j = 0;
                 while(j < listaFormas.size()){
